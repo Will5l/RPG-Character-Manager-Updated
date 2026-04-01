@@ -1,5 +1,7 @@
 # MH 1st character management
-
+import matplotlib
+import pandas
+import faker
 from skill_stat_manager import setup_char_value, get_stats_for_class
 from inventoryWUI import new_inven, edit_inven, migrate_inventories, find_item_by_name
 from character_search import check_char, dict_display

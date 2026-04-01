@@ -1,7 +1,9 @@
 #Import other files for functions
 from char_manager import create_character, edit_character
 from character_search import char_search
-
+import matplotlib
+import pandas
+import faker
 # tuple of races
     # tuple that contians all available races
 race_options = ("Human", "Dragonborn", "Halfling", "Elf", "Ogre", "Dwarf", "Tiefling")

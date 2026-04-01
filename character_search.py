@@ -1,7 +1,9 @@
 #WG_CP2 character search for group
 #The code for searching though the characters
 #from character creator import character return
-
+import matplotlib
+import pandas
+import faker
 #define check character
 def check_char(characters):
     while True:

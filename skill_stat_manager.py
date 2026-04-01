@@ -1,6 +1,8 @@
 #BB 1st RPG Character Manager Project
 # char_return will be imported inside setup_char_value to avoid circular import
-
+import matplotlib
+import pandas
+import faker
 # Characters starting stats are in nested dictionary and available module-wide
 CHAR_TABLE = {
 

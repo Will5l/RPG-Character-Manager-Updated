@@ -1,5 +1,7 @@
 # WM 1st pseudocode
-
+import matplotlib
+import pandas
+import faker
 #UI
     #Create a function for the main interface, just named main()
     #Have it greet them to the program.
