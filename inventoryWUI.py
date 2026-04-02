@@ -381,7 +381,7 @@ def migrate_inventories(characters):
     return characters
 
 
-def new_inven(char_class, char_dict, char_name):
+def new_inven(char_class, char_name):
     # Normalize incoming class name to our item categories
     if char_class in ("Black Mage", "White Mage"):
         internal_class = 'Mage'
@@ -402,10 +402,10 @@ def new_inven(char_class, char_dict, char_name):
                 continue
             else:
                 print("Weapon selection skipped.")
-                char_dict.setdefault(char_name, {}).setdefault('inventory', {})['weapon'] = None
+                weapon_select = None
                 break
         # valid selection
-        char_dict.setdefault(char_name, {}).setdefault('inventory', {})['weapon'] = {'name': weapon, 'stats': items[internal_class]['Weapons'][weapon]}
+        weapon_select = {'name': weapon, 'stats': items[internal_class]['Weapons'][weapon]}
         print(f"Selected: {_format_item_line(weapon, items[internal_class]['Weapons'][weapon])}\n")
         break
 
@@ -419,13 +419,14 @@ def new_inven(char_class, char_dict, char_name):
                 continue
             else:
                 print("Armor selection skipped.")
-                char_dict[char_name]['inventory']['armor'] = None
+                armor_selection = None
                 break
-        char_dict[char_name]['inventory']['armor'] = {'name': armor, 'stats': items[internal_class]['Armor'][armor]}
+        armor_selection = {'name': armor, 'stats': items[internal_class]['Armor'][armor]}
         print(f"Selected: {_format_item_line(armor, items[internal_class]['Armor'][armor])}\n")
         break
 
     # Equipment - 4 slots
+    equipment = {}
     for slot_idx in range(1, 5):
         print(f"Choose equipment slot {slot_idx} (choose category) or enter 's' to skip slot:")
         while True:
@@ -433,7 +434,7 @@ def new_inven(char_class, char_dict, char_name):
             slot_level = input("Enter 1/2/3 (or 's' to skip this slot):\n").strip()
             if slot_level.lower() == 's':
                 slot_name = f"equipment {_num_to_word[slot_idx]}"
-                char_dict[char_name]['inventory'][slot_name] = None
+                equipment[slot_name] = None
                 print(f"Skipped {slot_name}.\n")
                 break
             if slot_level not in ('1', '2', '3'):
@@ -445,19 +446,19 @@ def new_inven(char_class, char_dict, char_name):
                 skip = input("No selection made. Skip this equipment slot? (y/n)\n").strip().lower()
                 if skip == 'y':
                     slot_name = f"equipment {_num_to_word[slot_idx]}"
-                    char_dict[char_name]['inventory'][slot_name] = None
+                    equipment[slot_name] = None
                     print(f"Skipped {slot_name}.\n")
                     break
                 else:
                     print("Retrying equipment selection.")
                     continue
             slot_name = f"equipment {_num_to_word[slot_idx]}"
-            char_dict[char_name]['inventory'][slot_name] = {'name': chosen, 'stats': items['Equipment'][slot_key][chosen]}
+            equipment[slot_name] = {'name': chosen, 'stats': items['Equipment'][slot_key][chosen]}
             print(f"Selected: {_format_item_line(chosen, items['Equipment'][slot_key][chosen])}\n")
             break
 
     print("Your inventory has been completed.\n")
-    return char_dict
+    return weapon_select, armor_selection, equipment
 
 
 def edit_inven(char_dict, char_name, char_class):

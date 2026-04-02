@@ -6,6 +6,37 @@ from skill_stat_manager import setup_char_value, get_stats_for_class
 from inventoryWUI import new_inven, edit_inven, migrate_inventories, find_item_by_name
 from character_search import check_char, dict_display
 
+
+class DataVisulataion:
+    def __init__(self):
+        pass
+
+
+    def bar_graph(self,data):
+        self.data = data
+        name = list(data.keys())
+        values = list(data.values())
+
+
+
+
+
+
+class Character:
+    def __init__(self, Name, Class, Level, attributes, skills, weapon, armor, equipment):
+        self.name = Name
+        self.charclass = Class
+        self.lvl = Level
+        self.attributes = attributes
+        self.skills = skills
+        self.weapon = weapon
+        self.armor = armor
+        self.equipment = equipment
+
+    def display(self):
+        print(f"Name: {self.name}\nClass: {self.charclass}\nLevel: {self.lvl}\nAttributes: {self.attributes}\nSkills: {self.skills}\nWeapon: {self.weapon}\nArmor: {self.armor}\nEquipment: {self.equipment}\n")
+
+
 # dictionary to contain all characters
 characters = {
     # FOR ALL CHARACTERS
@@ -63,14 +94,14 @@ def char_return(characters):
     return characters
 
 # Create character function, takes in character dictionary, race tuple, class tuple:
-def create_character(character_dictionary, races, classes):
+def create_character(races, classes):
     # ask character name (non-empty & unique)
     while True:
         name = input("What is your character's name?\n").strip()
         if not name:
             print("Name cannot be empty.")
             continue
-        if name in character_dictionary:
+        #if name in character_dictionary:
             print("That name already exists. Choose another.")
             continue
         break
@@ -107,16 +138,10 @@ def create_character(character_dictionary, races, classes):
             continue
         break
 
-    # create character entry
-    character_dictionary[name] = {}
-    character_dictionary[name]["class"] = class_choice
-    character_dictionary[name]["race"] = race_choice
-    character_dictionary[name]["level"] = level
-
     # set base atributtes using skill_stat_manager helper
-    character_dictionary[name]["atributtes"] = get_stats_for_class(class_choice, level)
+    attributtes = get_stats_for_class(class_choice, level)
     # start with empty skills set
-    character_dictionary[name]["skills"] = set()
+    skills = set()
 
     # allow adding starting skills
     print("\nEnter starting skills (one per line). Press Enter on an empty line to finish.")
@@ -124,14 +149,13 @@ def create_character(character_dictionary, races, classes):
         skill = input('Skill name (or press Enter to finish):\n').strip()
         if not skill:
             break
-        character_dictionary[name].setdefault('skills', set()).add(skill)
+        skills.add(skill)
         print(f"Added skill: {skill}")
 
     # set new character inventory with Wills new inventory function and display the character
-    character_dictionary = new_inven(class_choice, character_dictionary, name)
-    dict_display(name, character_dictionary)
+    weapon, armor, equipment = new_inven(class_choice, name)
     # returns updated character dictionary
-    return character_dictionary
+    return Character(name, class_choice, level, attributtes, skills, weapon, armor, equipment)
 
 # character editing function, takes in character dictionary:
 def edit_character(character_dictionary):
