@@ -1,21 +1,25 @@
 # MH 1st character management
-import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas
 import faker
+import csv
 from skill_stat_manager import setup_char_value, get_stats_for_class
 from inventoryWUI import new_inven, edit_inven, migrate_inventories, find_item_by_name
 from character_search import check_char, dict_display
-
+from ast import literal_eval
 
 class DataVisulataion:
     def __init__(self):
         pass
 
 
-    def bar_graph(self,data):
-        self.data = data
+    def bar_graph(data):
         name = list(data.keys())
         values = list(data.values())
+        fig, axs = plt.subplots(1, figsize=(18, 6), sharey=True)
+        axs.bar(name,values)
+        plt.show()
 
 
 
@@ -27,14 +31,22 @@ class Character:
         self.name = Name
         self.charclass = Class
         self.lvl = Level
-        self.attributes = attributes
+        self.attributes = dict(attributes)
         self.skills = skills
         self.weapon = weapon
         self.armor = armor
         self.equipment = equipment
 
+    def attributesep(self):
+        for key, value in self.attributes.items():
+            print(f"{key} = {value}")
+
+
     def display(self):
-        print(f"Name: {self.name}\nClass: {self.charclass}\nLevel: {self.lvl}\nAttributes: {self.attributes}\nSkills: {self.skills}\nWeapon: {self.weapon}\nArmor: {self.armor}\nEquipment: {self.equipment}\n")
+
+
+        print(f"Name: {self.name}\nClass: {self.charclass}\nLevel: {self.lvl}")
+        print(f"{self.attributesep()}\nSkills: {self.skills}\nWeapon: {self.weapon}\nArmor: {self.armor}\nEquipment: {self.equipment}\n")
 
 
 # dictionary to contain all characters

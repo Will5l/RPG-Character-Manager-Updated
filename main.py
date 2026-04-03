@@ -1,5 +1,5 @@
 #Import other files for functions
-from char_manager import create_character, edit_character
+from char_manager import create_character, edit_character, DataVisulataion
 from character_search import char_search
 import matplotlib
 import pandas
@@ -50,6 +50,8 @@ characters = {
 import sys
 #Define main
 def main():
+    #Function to put all saved characters in pandas database
+    datavis = DataVisulataion
     characters_local = characters
     print("Welcome to the RPG Character Manager. You can create, edit, and search for characters here.")
     while True:
@@ -57,12 +59,18 @@ def main():
         if choice == '1':
             character = create_character(race_options, class_options)
             character.display()
+            #function to put new characters in pandas database
         elif choice == '2':
             characters_local = edit_character(characters_local)
         elif choice == '3':  
             char_search(characters_local)
         elif choice == '4':
-            graphfunction
+            datavis.bar_graph(character.attributes)
+        elif choice == '5':
+
+            pass
+        elif choice == '6':
+            pass
         else:
             print("Invalid choice, try again")
 
